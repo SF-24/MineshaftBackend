@@ -1,8 +1,6 @@
 import VercelRequest from '@vercel/node'
 import VercelResponse from '@vercel/node'
 import * as process from "node:process";
-import {Entity, Column, PrimaryGeneratedColumn} from "typeorm";
-
 
 const mysql = require('mysql');
 const express = require('express');
