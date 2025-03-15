@@ -10,13 +10,14 @@ const psw = process.env.sql_psw;
 const user = process.env.sql_user;
 const host = process.env.sql_host ;
 const db = process.env.sql_db;
+const port = process.env.port;
 
 const connection = mysql.createConnection({
     host     : host,
     user     : user,
     password : psw,
     database : db,
-    port: 3306
+    port: port
 });
 
 const app = express();
