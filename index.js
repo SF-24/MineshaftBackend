@@ -57,6 +57,7 @@ export default function handler(req,res) {
                         success: 'true',
                         session_id: sessionVar,
                         expiry: expiryTime,
+                        user_no: identifier,
                     });
                 } else {
                     return res.json({
