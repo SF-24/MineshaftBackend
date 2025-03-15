@@ -56,6 +56,7 @@ export default function handler(req,res) {
                     return res.json({
                         success: 'true',
                         session_id: sessionVar,
+                        expiry: expiryTime,
                     });
                 } else {
                     return res.json({
