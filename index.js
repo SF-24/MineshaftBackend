@@ -1,6 +1,8 @@
 import VercelRequest from '@vercel/node'
 import VercelResponse from '@vercel/node'
 import * as process from "node:process";
+import {Entity, Column, PrimaryGeneratedColumn} from "typeorm";
+
 
 const mysql = require('mysql');
 const express = require('express');
@@ -31,6 +33,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'static')));
 
 export default function handler(req,res) {
+    // let name = request.get("name");
+    // let secret = request.get("psw");
+    // if(name!=null&&secret!=null) {
+    //     connection.query('SELECT * FROM logins WHERE name = ? AND password = ?', [name, secret], function(error, results, fields) {
+    //         if (error) throw error;
+    //         if (results.length > 0) {
+    //             response.send("true");
+    //         } else {
+    //             response.send("false");
+    //         }
+    //         response.end();
+    //     });
+    // } else {
+    //     response.send('no_data');
+    //     response.end();
+    // }
+
+
     const { name = 'World' } = req.query
     return res.json({
         message: `Hello ${name}!`,
@@ -39,23 +59,7 @@ export default function handler(req,res) {
 
 
 // http://localhost:3000/
-app.get('/', function(request, response) {
-    // Render login template
-    let name = request.get("name");
-    let secret = request.get("psw");
-    if(name!=null&&secret!=null) {
-        connection.query('SELECT * FROM logins WHERE name = ? AND password = ?', [name, secret], function(error, results, fields) {
-            if (error) throw error;
-            if (results.length > 0) {
-                response.send("true");
-            } else {
-                response.send("false");
-            }
-            response.end();
-        });
-    } else {
-        response.send('no_data');
-        response.end();
-    }
-});
+// app.get('/', function(request, response) {
+//     // Render login template
+// });
 
