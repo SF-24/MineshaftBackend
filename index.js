@@ -47,18 +47,15 @@ export default function handler(req,res) {
                 if (error) throw error;
                 // If the account exists
                 if (results.length > 0) {
-                    var rows = results.rows({selected:true}).indexes();
-                    var identifier = results.rows('.selected').data().id;
                     let sessionVar = uuid.v4();
                     let expiryTime=moment().add(6, 'hours');
-                    connection.query('INSERT INTO sessions (user_id, session_id, expiry_date) VALUES (?, ?, ?)',[identifier, sessionVar, expiryTime], function(error, results, fields) {
-
-                    });
+                    // connection.query('INSERT INTO sessions (user_id, session_id, expiry_date) VALUES (?, ?, ?)',[identifier, sessionVar, expiryTime], function(error, results, fields) {
+                    // });
                     return res.json({
                         success: 'true',
                         session_id: sessionVar,
                         expiry: expiryTime,
-                        user_no: identifier,
+                        user_no: results,
                     });
                 } else {
                     return res.json({
