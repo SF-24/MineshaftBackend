@@ -51,13 +51,13 @@ export default function handler(req,res) {
                     let identifier=(results[0]).id;
                     let sessionVar = uuid.v4();
                     let expiryTime=moment().add(6, 'hours');
-                    // connection.query('INSERT INTO sessions (user_id, session_id, expiry_date) VALUES (?, ?, ?)',[identifier, sessionVar, expiryTime], function(error, results, fields) {
-                    // });
+                    connection.query('INSERT INTO sessions (user_id, session_id, expiry_date) VALUES (?, ?, ?)',[identifier, sessionVar, moment(expiryTime.format('YYYY/MM/DD HH:mm:ss')).format("YYYY-MM-DD HH:mm:ss")], function(error, results, fields) {
+                    });
                     return res.json({
                         success: 'true',
                         session_id: sessionVar,
                         expiry: expiryTime,
-                        id_number: identifier,
+                 //       id_number: identifier,
                     });
                 } else {
                     return res.json({
