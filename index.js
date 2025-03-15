@@ -51,7 +51,7 @@ export default function handler(req,res) {
                     let identifier=(results[0]).id;
                     let sessionVar = uuid.v4();
                     let expiryTime=moment().add(6, 'hours');
-                    connection.query('DELETE FROM sessions WHERE id=?', [identifier]);
+                    connection.query('DELETE FROM sessions WHERE user_id=?', [identifier]);
                     connection.query('INSERT INTO sessions (user_id, session_id, expiry_date) VALUES (?, ?, ?)',[identifier, sessionVar, moment(expiryTime.format('YYYY/MM/DD HH:mm:ss')).format("YYYY-MM-DD HH:mm:ss")], function(error, results, fields) {
                     });
                     return res.json({
