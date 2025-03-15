@@ -1,4 +1,5 @@
 import * as process from "node:process";
+import * as sea from "node:sea";
 
 const mysql = require('mysql');
 const express = require('express');
@@ -31,8 +32,10 @@ app.use(express.static(path.join(__dirname, 'static')));
 export default function handler(req,res) {
     var address = req.url;
     if (address.includes('/login')) {
-        let varName = req.get("name");
-        let varSecret = req.get("psw");
+        const search_params = address.searchParams;
+
+        let varName = search_params.get('name');
+        let varSecret = search_params.get('psw');
 
         if (varName!=null&& varSecret!=null) {
             connection.query('SELECT * FROM logins WHERE name = ? AND password = ?', [varName, varSecret], function(error, results, fields) {
