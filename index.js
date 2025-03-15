@@ -29,6 +29,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'static')));
 
 export default function handler(req,res) {
+
+
     // let name = request.get("name");
     // let secret = request.get("psw");
     // if(name!=null&&secret!=null) {
@@ -55,7 +57,11 @@ export default function handler(req,res) {
 
 
 // http://localhost:3000/
-// app.get('/', function(request, response) {
+app.get('/', function(request, response) {
 //     // Render login template
-// });
+    return res.json({
+        message: `Hello!!! ${name}!`,
+    });
+
+});
 
