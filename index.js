@@ -1,5 +1,3 @@
-import VercelRequest from '@vercel/node'
-import VercelResponse from '@vercel/node'
 import * as process from "node:process";
 
 const mysql = require('mysql');
