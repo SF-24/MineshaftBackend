@@ -48,7 +48,7 @@ export default function handler(req,res) {
                 // If the account exists
                 if (results.length > 0) {
 
-                    let identifier=JSON.parse(results);
+                    let identifier=(results[0]) ;
                     let sessionVar = uuid.v4();
                     let expiryTime=moment().add(6, 'hours');
                     // connection.query('INSERT INTO sessions (user_id, session_id, expiry_date) VALUES (?, ?, ?)',[identifier, sessionVar, expiryTime], function(error, results, fields) {
