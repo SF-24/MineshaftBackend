@@ -1,3 +1,5 @@
+import VercelRequest from '@vercel/node'
+import VercelResponse from '@vercel/node'
 import * as process from "node:process";
 
 const mysql = require('mysql');
@@ -28,8 +30,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'static')));
 
+export default function handler(req,res) {
+    const { name = 'World' } = req.query
+    return res.json({
+        message: `Hello ${name}!`,
+    });
+}
+
+
 // http://localhost:3000/
-app.get('/login', function(request, response) {
+app.get('/', function(request, response) {
     // Render login template
     let name = request.get("name");
     let secret = request.get("psw");
@@ -48,5 +58,4 @@ app.get('/login', function(request, response) {
         response.end();
     }
 });
-app.listen(3000);
 
