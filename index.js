@@ -49,7 +49,7 @@ export default function handler(req,res) {
                 if (results.length > 0) {
                     let identifier = results.id;
                     let sessionVar = uuid.v4();
-                    let expiryTime=moment(moment().add(6, 'hours').calendar()).utc().format("YYYY-MM-DD HH:mm:ss");
+                    let expiryTime=(moment().add(6, 'hours');
                     connection.query('INSERT INTO sessions (user_id, session_id, expiry_date) VALUES (?, ?, ?)',[identifier, sessionVar, expiryTime], function(error, results, fields) {
 
                     });
