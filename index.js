@@ -1,28 +1,14 @@
+import * as process from "node:process";
+
 const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
 
-let psw ;
-let user ;
-let host ;
-let db ;
-
- user = "u14804_EnR7bTReGn";
- db = "s14804_users";
-readline.question('PSW: ', returnVal => {
-    psw=returnVal;
-    readline.close();
-});
-readline.question('HOST: ', returnVal => {
-    host=returnVal;
-    readline.close();
-});
-
-const readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+const psw = process.env.sql_psw;
+const user = process.env.sql_user;
+const host = process.env.sql_host ;
+const db = process.env.sql_db;
 
 const connection = mysql.createConnection({
     host     : host,
@@ -61,8 +47,6 @@ app.get('/login', function(request, response) {
         response.send('no_data');
         response.end();
     }
-
-    response.sendFile(path.join(__dirname + '/login.html'));
 });
 app.listen(3000);
 
