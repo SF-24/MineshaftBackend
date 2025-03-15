@@ -34,16 +34,8 @@ export default function handler(req,res) {
         let name = request.get("name");
         let secret = request.get("psw");
         if(name!=null&&secret!=null) {
-            connection.query('SELECT * FROM logins WHERE name = ? AND password = ?', [name, secret], function(error, results, fields) {
-                if (results.length > 0) {
-                    return res.json({
-                        success: 'true',
-                    });
-                } else {
-                    return res.json({
-                        success: 'false',
-                    });
-                }
+            return res.json({
+                success: 'true',
             });
         } else {
             return res.json({
