@@ -8,13 +8,21 @@ let user ;
 let host ;
 let db ;
 
-$.getJSON("login.json", function(json) {
-     psw = json.get("psw");
-     user = json.get("usr");
-     host = json.get("host");
-     db = json.get("db");
+ user = "u14804_EnR7bTReGn";
+ db = "s14804_users";
+readline.question('PSW: ', returnVal => {
+    psw=returnVal;
+    readline.close();
+});
+readline.question('HOST: ', returnVal => {
+    host=returnVal;
+    readline.close();
 });
 
+const readline = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
 const connection = mysql.createConnection({
     host     : host,
