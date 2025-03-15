@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/SF-24/MineshaftBackend#readme",
   "dependencies": {
-    "http": "^0.0.1-security"
+    "http": "^0.0.1-security",
+    "vercel": "^41.4.1"
   }
 }
