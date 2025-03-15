@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'static')));
 
 export default function handler(req,res) {
     var address = req.url;
-    if (address.contains('/login')) {
+    if (address.includes('/login')) {
         try {
             let name = req.get("name");
             let secret = req.get("psw");
