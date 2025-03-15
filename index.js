@@ -40,8 +40,19 @@ export default function handler(req,res) {
             });
         }
         if (name!=null&&secret!=null) {
-            return res.json({
-                success: 'true',
+            connection.query('SELECT * FROM logins WHERE name = ? AND password = ?', [username, password], function(error, results, fields) {
+                // If there is an issue with the query, output the error
+                if (error) throw error;
+                // If the account exists
+                if (results.length > 0) {
+                    return res.json({
+                        success: 'true',
+                    });
+                } else {
+                    return res.json({
+                        success: 'false',
+                    });
+                }
             });
         } else {
             return res.json({
