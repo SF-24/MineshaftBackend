@@ -55,7 +55,7 @@ export default function handler(req,res) {
                     });
                     return res.json({
                         success: 'true',
-                        session_id: session,
+                        session_id: sessionVar,
                     });
                 } else {
                     return res.json({
