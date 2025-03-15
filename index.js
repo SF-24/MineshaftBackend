@@ -34,8 +34,8 @@ export default function handler(req,res) {
     if (address.includes('/login')) {
         const search_params = address.searchParams;
 
-        let varName = search_params.get('name');
-        let varSecret = search_params.get('psw');
+        let varName = req.query.name;
+        let varSecret = req.query.psw;
 
         if (varName!=null&& varSecret!=null) {
             connection.query('SELECT * FROM logins WHERE name = ? AND password = ?', [varName, varSecret], function(error, results, fields) {
