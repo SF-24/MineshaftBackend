@@ -45,7 +45,7 @@ export default function handler(req,res) {
     } else {
         const {name = 'World'} = req.query
         return res.json({
-            message: `Hello ${url}!`,
+            message: `Hello ${name}}!`,
         });
     }
 }
