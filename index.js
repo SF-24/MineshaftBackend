@@ -29,12 +29,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'static')));
 
 export default function handler(req,res) {
-    if (req.url === "/login") {
+    var address = req.url;
+    if (address === "/login") {
         let name = request.get("name");
         let secret = request.get("psw");
         if(name!=null&&secret!=null) {
             connection.query('SELECT * FROM logins WHERE name = ? AND password = ?', [name, secret], function(error, results, fields) {
-                if (error) throw error;
                 if (results.length > 0) {
                     return res.json({
                         success: 'true',
