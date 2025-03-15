@@ -32,8 +32,8 @@ export default function handler(req,res) {
     var address = req.url;
     if (address === '/login') {
         try {
-            let name = request.get("name");
-            let secret = request.get("psw");
+            let name = req.get("name");
+            let secret = req.get("psw");
         } catch (e) {
             return res.json({
                 success: 'false',
