@@ -1,10 +1,11 @@
 import * as process from "node:process";
+import moment from 'moment';
+import 'moment/min/locales';
 
 const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-const moment = require('momentjs')
 const uuid = require('uuid');
 
 const psw = process.env.sql_psw;
