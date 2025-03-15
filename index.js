@@ -1,12 +1,10 @@
 import * as process from "node:process";
-import * as sea from "node:sea";
-import {DATE} from "mysql/lib/protocol/constants/types";
+import { v4 as uuidv4, v6 as uuidv6 } from 'uuid';
 
 const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-const uuid_v4 = require("uuid/v4")
 const moment = require("momentjs")
 
 const psw = process.env.sql_psw;
@@ -49,7 +47,7 @@ export default function handler(req,res) {
                 // If the account exists
                 if (results.length > 0) {
                     let identifier = results.id;
-                    let session = uuid_v4();
+                    let session = uuidv4();
                     let expiryTime= moment(Date.now()).add(1, 'h').toISOString().slice(0, 19).replace('T', ' ');
                     connection.query('INSERT INTO sessions (user_id, session_id, expiry_date) VALUES (?, ?, ?)',[identifier, session, expiryTime], function(error, results, fields) {
 
