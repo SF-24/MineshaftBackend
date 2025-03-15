@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'static')));
 
 export default function handler(req,res) {
     var address = req.url;
-    if (address === '/login') {
+    if (address.contains('/login')) {
         try {
             let name = req.get("name");
             let secret = req.get("psw");
@@ -62,7 +62,7 @@ export default function handler(req,res) {
     } else {
         const {name = 'World'} = req.query
         return res.json({
-            message: `Hello ${name}}!`,
+            message: `Hello ${name}!`,
         });
     }
 }
