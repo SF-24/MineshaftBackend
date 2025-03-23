@@ -81,20 +81,20 @@ export default function handler(req,res) {
                 if (error) throw error;
                 // If the account exists
                 if (results.length > 0) {
-                    let cape=(results[0]).currentCape;
+                    let cape=(results[0]).current_cape;
                     if(cape==null || cape==="") cape="empty";
                     return res.json({
-                        currentCape: cape
+                        current_cape: cape
                     });
                 } else {
                     return res.json({
-                        currentCape: 'empty'
+                        current_cape: 'empty'
                     });
                 }
             });
         } else {
             return res.json({
-                currentCape: 'empty'
+                current_cape: 'empty'
             });
         }
     } else {
