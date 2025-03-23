@@ -70,6 +70,33 @@ export default function handler(req,res) {
                 success: 'false',
             });
         }
+    } else if (address.includes('/cape')) {
+        const search_params = address.searchParams;
+
+        let varUser = req.query.id;
+
+        if (varName!=null&& varSecret!=null) {
+            connection.query('SELECT * FROM capes WHERE id = ?', [varUser], function(error, results, fields) {
+                // If there is an issue with the query, output the error
+                if (error) throw error;
+                // If the account exists
+                if (results.length > 0) {
+                    let cape=(results[0]).currentCape;
+                    if(cape==null || cape==="") cape="empty";
+                    return res.json({
+                        currentCape: cape
+                    });
+                } else {
+                    return res.json({
+                        currentCape: 'empty'
+                    });
+                }
+            });
+        } else {
+            return res.json({
+                success: 'false',
+            });
+        }
     } else {
         const {name = 'World'} = req.query
         return res.json({
