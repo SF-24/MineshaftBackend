@@ -75,7 +75,7 @@ export default function handler(req,res) {
 
         let varUser = req.query.id;
 
-        if (varName!=null&& varSecret!=null) {
+        if (varUser!=null) {
             connection.query('SELECT * FROM capes WHERE id = ?', [varUser], function(error, results, fields) {
                 // If there is an issue with the query, output the error
                 if (error) throw error;
