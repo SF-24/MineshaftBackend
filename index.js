@@ -94,7 +94,7 @@ export default function handler(req,res) {
             });
         } else {
             return res.json({
-                success: 'false',
+                currentCape: 'empty'
             });
         }
     } else {
