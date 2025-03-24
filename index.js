@@ -102,7 +102,7 @@ export default function handler(req,res) {
 
         let varId = req.query.id;
         let varSession = req.query.session;
-        let varSessionExpiry = req.query.expiry;
+        let varSessionExpiry = moment(req.query.expiry, 'YYYY/MM/DD HH:mm:ss');
 
         if (varId!=null&&varSession!=null&&varSessionExpiry!=null&& typeof varSession=="string"&&typeof varSessionExpiry=="string"&&typeof varId=="string") {
 
