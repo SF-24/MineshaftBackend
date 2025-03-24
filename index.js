@@ -57,7 +57,7 @@ export default function handler(req,res) {
                     return res.json({
                         success: 'true',
                         session_id: sessionVar,
-                        expiry: expiryTime,
+                        expiry: moment(expiryTime.format('YYYY/MM/DD HH:mm:ss')).format("YYYY-MM-DD HH:mm:ss"),
                     });
                 } else {
                     return res.json({
@@ -102,13 +102,13 @@ export default function handler(req,res) {
 
         let varId = req.query.id;
         let varSession = req.query.session;
-        let varSessionExpiry = moment(req.query.expiry, 'YYYY/MM/DD HH:mm:ss');
+        let varSessionExpiry = req.query.expiry;//moment(req.query.expiry, 'YYYY/MM/DD HH:mm:ss');
 
         if (varId!=null&&varSession!=null&&varSessionExpiry!=null&& typeof varSession=="string"&&typeof varSessionExpiry=="string"&&typeof varId=="string") {
 
-            let varExpiryFormatted =moment(varSessionExpiry.format('YYYY/MM/DD HH:mm:ss')).format("YYYY-MM-DD HH:mm:ss");
+            //let varExpiryFormatted =moment(varSessionExpiry.format('YYYY/MM/DD HH:mm:ss')).format("YYYY-MM-DD HH:mm:ss");
 
-            connection.query('SELECT * FROM sessions WHERE user_id = ? AND session_id = ? AND expiry_date = ? ', [varId, varSession, varExpiryFormatted], function(error, results, fields) {
+            connection.query('SELECT * FROM sessions WHERE user_id = ? AND session_id = ? AND expiry_date = ? ', [varId, varSession, varSessionExpiry], function(error, results, fields) {
                 // If there is an issue with the query, output the error
                 if (error) throw error;
                 // If the account exists
