@@ -113,6 +113,9 @@ export default function handler(req,res) {
                 if (error) throw error;
                 // If the account exists
                 if (results.length > 0) {
+                    return res.json({
+                        worked:true
+                    })
                     connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function(error, results, fields) {
                         if(results.length>0) {
                             let cape=(results[0]).owned_items;
