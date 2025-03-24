@@ -104,9 +104,11 @@ export default function handler(req,res) {
         let varSession = req.query.session;
         let varSessionExpiry = req.query.expiry;
 
-        if (varId!=null&&varSession!=null&&varSessionExpiry!=null&& typeof varSession=="string"&&typeof varExpiryFormatted=="string"&&typeof varId=="string") {
+        if (varId!=null&&varSession!=null&&varSessionExpiry!=null&& typeof varSession=="string"&&typeof varSessionExpiry=="string"&&typeof varId=="string") {
+
+            let varExpiryFormatted =moment(varSessionExpiry.format('YYYY/MM/DD HH:mm:ss')).format("YYYY-MM-DD HH:mm:ss");
+
             connection.query('SELECT * FROM sessions WHERE user_id = ? AND session_id = ? AND expiry_date = ? ', [varId, varSession, varExpiryFormatted], function(error, results, fields) {
-                let varExpiryFormatted =moment(varSessionExpiry.format('YYYY/MM/DD HH:mm:ss')).format("YYYY-MM-DD HH:mm:ss");
                 // If there is an issue with the query, output the error
                 if (error) throw error;
                 // If the account exists
