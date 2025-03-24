@@ -75,7 +75,7 @@ export default function handler(req,res) {
 
         let varUser = req.query.id;
 
-        if (varUser!=null) {
+        if (varUser!=null&& typeof varUser=="string") {
             connection.query('SELECT * FROM capes WHERE id = ?', [varUser], function(error, results, fields) {
                 // If there is an issue with the query, output the error
                 if (error) throw error;
@@ -95,6 +95,42 @@ export default function handler(req,res) {
         } else {
             return res.json({
                 current_cape: 'empty'
+            });
+        }
+    }else if (address.includes('/owned_items')) {
+        const search_params = address.searchParams;
+
+        let varId = req.query.id;
+        let varSession = req.query.session;
+        let varSessionExpiry = req.query.expiry;
+        let varExpiryFormatted =moment(varSessionExpiry.format('YYYY/MM/DD HH:mm:ss')).format("YYYY-MM-DD HH:mm:ss");
+
+        if (varId!=null&&varSession!=null&&varExpiryFormatted!=null&& typeof varSession=="string"&&typeof varExpiryFormatted=="string"&&typeof varId=="string") {
+            connection.query('SELECT * FROM sessions WHERE user_id = ? AND session_id = ? AND expiry_date = ? ', [varId, varSession, varExpiryFormatted], function(error, results, fields) {
+                // If there is an issue with the query, output the error
+                if (error) throw error;
+                // If the account exists
+                if (results.length > 0) {
+                    connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function(error, results, fields) {
+                        if(results.length>0) {
+                            let cape=(results[0]).owned_items;
+                            if(cape==null) cape="";
+                            return res.json({
+                                capes: cape
+                            });
+                        } else {
+
+                        }
+                    })
+                } else {
+                    return res.json({
+                        capes: ''
+                    });
+                }
+            });
+        } else {
+            return res.json({
+                capes: ''
             });
         }
     } else {
