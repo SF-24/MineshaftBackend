@@ -41,7 +41,7 @@ export default function handler(req,res) {
         let varName = req.query.name;
         let varSecret = req.query.psw;
 
-        if (varName!=null&& varSecret!=null) {
+        if (varName!=null&& varSecret!=null&& typeof varName=="string"&&typeof varSecret=="string") {
             connection.query('SELECT * FROM logins WHERE name = ? AND password = ?', [varName, varSecret], function(error, results, fields) {
                 // If there is an issue with the query, output the error
                 if (error) throw error;
