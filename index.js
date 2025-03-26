@@ -2,6 +2,8 @@ import * as process from "node:process";
 import moment from 'moment';
 import 'moment/min/locales';
 
+const capeManager = require('./cape_manager');
+
 const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
@@ -51,6 +53,7 @@ export default function handler(req,res) {
                     let identifier=(results[0]).id;
                     let sessionVar = uuid.v4();
                     let expiryTime=moment().add(6, 'hours');
+
                     connection.query('DELETE FROM sessions WHERE user_id=?', [identifier]);
                     connection.query('INSERT INTO sessions (user_id, session_id, expiry_date) VALUES (?, ?, ?)',[identifier, sessionVar, moment(expiryTime.format('YYYY/MM/DD HH:mm:ss')).format("YYYY-MM-DD HH:mm:ss")], function(error, results, fields) {
                     });
@@ -97,12 +100,25 @@ export default function handler(req,res) {
                 current_cape: 'empty'
             });
         }
+    } else if (address.includes('/set_cape')) {
+
+        capeManager.setCapeLogic(req,address);
+
     }else if (address.includes('/owned_items')) {
         const search_params = address.searchParams;
 
 //        let varId = req.query.id;
         let varSession = req.query.session;
         let varSessionExpiry = req.query.expiry;//moment(req.query.expiry, 'YYYY/MM/DD HH:mm:ss');
+
+        let expiry = moment(varSessionExpiry, 'YYYY/MM/DD HH:mm:ss');
+        if(expiry.isBefore(moment().add(0, 'hours'))) {
+            return res.json({
+                capes: '',
+                expired:true
+            });
+        }
+
 
         if (varSession!=null&&varSessionExpiry!=null&& typeof varSession=="string"&&typeof varSessionExpiry=="string") {
 
@@ -124,7 +140,9 @@ export default function handler(req,res) {
                                 owned_items: cape
                             });
                         } else {
-
+                            return res.json({
+                                capes: ''
+                            });
                         }
                     })
                 } else {
@@ -145,3 +163,7 @@ export default function handler(req,res) {
         });
     }
 }
+
+
+
+// set cape
