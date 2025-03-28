@@ -178,7 +178,7 @@ function setCapeLogic(req,address) {
     let varSession = req.query.session;
     let varSessionExpiry = req.query.expiry;
 
-    if (varSession != null && varSessionExpiry != null && typeof varSession === "string" && typeof varSessionExpiry === "string") {
+    if (varSession != null && varSessionExpiry != null) {// && typeof varSession === "string" && typeof varSessionExpiry === "string") {
         let expiry = moment(varSessionExpiry, 'YYYY/MM/DD HH:mm:ss');
         if(expiry.isBefore(moment().add(0, 'hours'))) {
             return res.json({
