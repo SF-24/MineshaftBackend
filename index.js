@@ -172,7 +172,7 @@ export default function handler(req,res) {
 
 // set cape
 
-function setCapeLogic(varCape, varSession ,varSessionExpiry) {
+export default function setCapeLogic(varCape, varSession ,varSessionExpiry) {
 
     if (varSession != null && varSessionExpiry != null) {// && typeof varSession === "string" && typeof varSessionExpiry === "string") {
         // let expiry = moment(varSessionExpiry, 'YYYY/MM/DD HH:mm:ss');
@@ -183,7 +183,21 @@ function setCapeLogic(varCape, varSession ,varSessionExpiry) {
         //     });
         // }
 
-        connection.query('SELECT * FROM sessions WHERE session_id = ? AND expiry_date = ?', [varSession, varSessionExpiry], function (error, results, fields) {
+        let psw = process.env.sql_psw;
+        let user = process.env.sql_user;
+        let host = process.env.sql_host ;
+        let db = process.env.sql_db;
+        let port = process.env.port;
+
+        let mysql = mysql.createConnection({
+            host     : host,
+            user     : user,
+            password : psw,
+            database : db,
+            port: port
+        });
+
+        mysql.query('SELECT * FROM sessions WHERE session_id = ? AND expiry_date = ?', [varSession, varSessionExpiry], function (error, results, fields) {
             // If there is an issue with the query, output the error
 
             // let varId = (results[0]).user_id;
