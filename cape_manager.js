@@ -77,7 +77,7 @@ module.exports = {
                 // If the account exists
                 if (results.length > 0) {
                     if(capeManager.hasCape(varId, varCape)) {
-                        capeManager.setCapeLogic(varId, varCape);
+                        capeManager.setCape(varId, varCape);
                         return true;
                     } else {
                         return false;
