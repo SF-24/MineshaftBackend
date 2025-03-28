@@ -203,12 +203,9 @@ function setCapeLogic(req,address) {
                     return 5;
                 })
                 return 4;
-            } else {
-                return 3;
             }
+            return 2;
         });
-        // error
-        return varCape;
 
     }
     return 1;
