@@ -38,6 +38,7 @@ module.exports = {
 
     hasCape: function (varId, varCapeName)
     {
+        if(varCapeName.equal("empty")) return true;
 
         connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function(error, results, fields) {
             if (results.length > 0) {
@@ -46,7 +47,7 @@ module.exports = {
                 let array = res.json({cape});
                 for (let i in array) {
                     console.log("cape name: " + i);
-                    if (i===varCapeName) return true;
+                    if (varCapeName.equals(i)) return true;
                 }
             }
             return false;
