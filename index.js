@@ -137,12 +137,23 @@ export default function handler(req,res) {
                 // If the account exists
                 if (results.length > 0) {
 
-                    return res.json({
-                        owned_items: getCapes(varId).capes
-                    });
+                    connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function(error, results, fields) {
+                        if(results.length>0) {
+                            let cape=(results[0]).owned_items;
+                            if(cape==null) cape="";
+                            return res.json({
+                                owned_items: cape
+                            });
+                        } else {
+                            return res.json({
+                                owned_items: ''
+                            });
+                        }
+                    })
+
                 } else {
                     return res.json({
-                        capes: ''
+                        owned_items: ''
                     });
                 }
             });
@@ -183,12 +194,20 @@ function setCapeLogic(req,address) {
             if (error) throw error;
             // If the account exists
             if (results.length > 0) {
-                for (let i in getCapes(varId).capes) {
-                    if(i.includes(varCape)) {
-                        setCape(varId, varCape);
-                        return true;
+
+                connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function(error, results, fields) {
+                    if(results.length>0) {
+                        let cape=(results[0]).owned_items.capes;
+                        if(cape==null) cape="";
+                        for (let i in cape) {
+                            if(i.includes(varCape)) {
+                                setCape(varId, varCape);
+                                return true;
+                            }
+                        }
+
                     }
-                }
+                })
                 return false;
             }
         });
