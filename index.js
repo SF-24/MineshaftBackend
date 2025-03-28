@@ -199,12 +199,11 @@ function setCapeLogic(req,address) {
                     if(results.length>0) {
                         let cape=(results[0]).owned_items.capes;
                         if(cape==null) cape="";
-                        for (let i in cape) {
-                            if(i.includes(varCape)) {
-                                setCape(varId, varCape);
-                                return true;
-                            }
+                        if(varCape.equal("empty") || cape.includes(varCape)) {
+                            setCape(varId, varCape);
+                            return true;
                         }
+
 
                     }
                 })
