@@ -52,39 +52,5 @@ module.exports = {
             return false;
         })
         return false;
-    },
-
-    setCapeLogic: function (req,address) {
-        let varCape = req.query.cape;
-        let varSession = req.query.session;
-        let varSessionExpiry = req.query.expiry;
-
-        if (varSession != null && varSessionExpiry != null && typeof varSession == "string" && typeof varSessionExpiry == "string") {
-            let expiry = moment(varSessionExpiry, 'YYYY/MM/DD HH:mm:ss');
-            if(expiry.isBefore(moment().add(0, 'hours'))) {
-                return res.json({
-                    success:false,
-                    expired:true
-                });
-            }
-
-            connection.query('SELECT * FROM sessions WHERE session_id = ? AND expiry_date = ? ', [varSession, varSessionExpiry], function (error, results, fields) {
-                // If there is an issue with the query, output the error
-
-                let varId = (results[0]).user_id;
-                if (error) throw error;
-                // If the account exists
-                if (results.length > 0) {
-                    if(capeManager.hasCape(varId, varCape)) {
-                        capeManager.setCape(varId, varCape);
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            });
-
-        }
-        return false;
     }
 };
