@@ -3,8 +3,7 @@ import moment from 'moment';
 import 'moment/min/locales';
 
 import "./cape_manager";
-import {NULL} from "mysql/lib/protocol/constants/types";
-import * as Json from "uuid";
+import {JSON, NULL} from "mysql/lib/protocol/constants/types";
 
 const mysql = require('mysql');
 const express = require('express');
@@ -134,7 +133,7 @@ export default function handler(req,res) {
 
                     connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function(error, results, fields) {
                         if(results.length>0) {
-                            let cape=Json.parse((results[0]).owned_items);
+                            let cape=JSON.parse((results[0]).owned_items);
                             if(cape==null) cape="";
                             for(let i in cape.capes) {
                                 if (i.includes(varCape)) {
