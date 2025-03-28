@@ -1,6 +1,7 @@
 import moment from "moment/moment";
 import mysql from "mysql";
 import process from "node:process";
+import {NULL} from "mysql/lib/protocol/constants/types";
 
 const capeManager = require('./cape_manager');
 
@@ -43,9 +44,9 @@ module.exports = {
         connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function(error, results, fields) {
             if (results.length > 0) {
                 let cape=(results[0]).owned_items;
-                if(cape==null) cape="";
-                let array = res.json({cape});
-                for (let i in array) {
+                if(cape==null) throw NULL;
+                let array = Json.parse(cape);
+                for (let i in array.capes) {
                     console.log("cape name: " + i);
                     if (varCapeName.equals(i)) return true;
                 }
