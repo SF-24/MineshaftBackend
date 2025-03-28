@@ -102,7 +102,7 @@ export default function handler(req,res) {
         }
     } else if (address.includes('/set_cape')) {
 
-        let returnVal = capeManager.setCapeLogic(req,address);
+        let returnVal = setCapeLogic(req,address);
         return res.json({
             success: returnVal
         });
