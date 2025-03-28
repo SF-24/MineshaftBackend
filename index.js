@@ -136,7 +136,7 @@ export default function handler(req,res) {
                         if(results.length>0) {
                             let cape=(results[0]).owned_items;
                             if(cape==null) cape="";
-                            if(cape.capes.map.contains(varCape)) {
+                            if(cape.capes.toArray().contains(varCape)) {
                                 setCape(varId,varCape)
                                 return res.json({
                                     success: true
