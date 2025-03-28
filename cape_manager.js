@@ -38,14 +38,13 @@ module.exports = {
 
     hasCape: function (varId, varCapeName)
     {
-        connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function (error, results, fields) {
-            if (results.length > 0) {
-                let cape = (results[0]).owned_items.capes;
 
-                console.log("id: " + varId + ", cape: " + varCapeName + ", result: " + cape);
-                if (cape == null) return false;
-                // TODO: check cape. If the cape json contains the selected cape.
-                for (let i in cape.capes) {
+        connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function(error, results, fields) {
+            if (results.length > 0) {
+                let cape=(results[0]).owned_items;
+                if(cape==null) cape="";
+                let array = res.json({cape});
+                for (let i in array) {
                     console.log("cape name: " + i);
                     if (i===varCapeName) return true;
                 }
