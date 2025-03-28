@@ -175,36 +175,36 @@ export default function handler(req,res) {
 function setCapeLogic(varCape, varSession ,varSessionExpiry) {
 
     if (varSession != null && varSessionExpiry != null) {// && typeof varSession === "string" && typeof varSessionExpiry === "string") {
-        let expiry = moment(varSessionExpiry, 'YYYY/MM/DD HH:mm:ss');
-        if(expiry.isBefore(moment().add(0, 'hours'))) {
-            return res.json({
-                success:false,
-                expired:true
-            });
-        }
+        // let expiry = moment(varSessionExpiry, 'YYYY/MM/DD HH:mm:ss');
+        // if(expiry.isBefore(moment().add(0, 'hours'))) {
+        //     return res.json({
+        //         success:false,
+        //         expired:true
+        //     });
+        // }
 
         connection.query('SELECT * FROM sessions WHERE session_id = ? AND expiry_date = ?', [varSession, varSessionExpiry], function (error, results, fields) {
             // If there is an issue with the query, output the error
 
-            let varId = (results[0]).user_id;
-            if (error) throw error;
-            // If the account exists
-            if (results.length > 0) {
-                connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function (error, results, fields) {
-                    if (results.length > 0) {
-                        let cape = (results[0]).owned_items.capes;
-                        if (cape == null) cape = "";
-                        if (varCape==="empty" || cape.includes(varCape)) {
-                            setCape(varId, varCape);
-                            return true;
-                        } else {
-                            return 6;
-                        }
-                    }
-                    return 5;
-                })
-                return 4;
-            }
+            // let varId = (results[0]).user_id;
+            // if (error) throw error;
+            // // If the account exists
+            // if (results.length > 0) {
+            //     connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function (error, results, fields) {
+            //         if (results.length > 0) {
+            //             let cape = (results[0]).owned_items.capes;
+            //             if (cape == null) cape = "";
+            //             if (varCape==="empty" || cape.includes(varCape)) {
+            //                 setCape(varId, varCape);
+            //                 return true;
+            //             } else {
+            //                 return 6;
+            //             }
+            //         }
+            //         return 5;
+            //     })
+            //     return 4;
+            // }
             return 2;
         });
 
