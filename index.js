@@ -203,15 +203,16 @@ function setCapeLogic(req,address) {
                             setCape(varId, varCape);
                             return true;
                         } else {
-                            return 3;
+                            return 6;
                         }
-
-
                     }
+                    return 5;
                 })
-                return 2;
+                return 4;
             }
+            return 3;
         });
+        return 2;
 
     }
     return 1;
