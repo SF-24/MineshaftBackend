@@ -112,9 +112,8 @@ export default function handler(req,res) {
         let expiry = moment(varSessionExpiry, 'YYYY/MM/DD HH:mm:ss');
         if(expiry.isBefore(moment().add(0, 'hours'))) {
             return res.json({
-                owned_items: '',
                 expired:true,
-                success:false
+                success:"session_expired"
             });
         }
 
@@ -136,18 +135,10 @@ export default function handler(req,res) {
                             let cape=((results[0]).owned_items);
                             if(cape==null) cape="";
                             for(let i in cape) {
-                                if (i.includes(varCape)) {
-                                    setCape(varId, varCape)
-                                    return res.json({
-                                        success: true
-                                    });
-                                }
-                            }
-                            for(let i in cape) {
                                 for(let j in i) {
                                     setCape(varId, varCape)
                                     return res.json({
-                                        success: "included"
+                                        success: true
                                     });
                                 }
                             }
@@ -157,20 +148,20 @@ export default function handler(req,res) {
 
                         } else {
                             return res.json({
-                                success: false
+                                success: "no_capes_found"
                             });
                         }
                     })
 
                 } else {
                     return res.json({
-                        success:false
+                        success: "invalid_session"
                     });
                 }
             });
         } else {
             return res.json({
-                success:false
+                success: "invalid_request"
             });
         }
 
