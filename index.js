@@ -136,16 +136,18 @@ export default function handler(req,res) {
                         if(results.length>0) {
                             let cape=(results[0]).owned_items;
                             if(cape==null) cape="";
-                            if(cape.capes.toArray().contains(varCape)) {
-                                setCape(varId,varCape)
-                                return res.json({
-                                    success: true
-                                });
-                            } else {
-                                return res.json({
-                                    success: "cape_not_owned"
-                                });
+                            for(let i in cape.capes) {
+                                if (i === varCape) {
+                                    setCape(varId, varCape)
+                                    return res.json({
+                                        success: true
+                                    });
+                                }
                             }
+                            return res.json({
+                                success: "cape_not_owned"
+                            });
+
                         } else {
                             return res.json({
                                 success: false
