@@ -133,13 +133,21 @@ export default function handler(req,res) {
 
                     connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function(error, results, fields) {
                         if(results.length>0) {
-                            let cape=JSON.parse((results[0]).owned_items);
+                            let cape=((results[0]).owned_items);
                             if(cape==null) cape="";
-                            for(let i in cape.capes) {
+                            for(let i in cape) {
                                 if (i.includes(varCape)) {
                                     setCape(varId, varCape)
                                     return res.json({
                                         success: true
+                                    });
+                                }
+                            }
+                            for(let i in cape) {
+                                for(let j in i) {
+                                    setCape(varId, varCape)
+                                    return res.json({
+                                        success: "included"
                                     });
                                 }
                             }
