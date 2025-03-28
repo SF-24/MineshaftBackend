@@ -199,20 +199,22 @@ function setCapeLogic(req,address) {
                     if(results.length>0) {
                         let cape=(results[0]).owned_items.capes;
                         if(cape==null) cape="";
-                        if(varCape.equal("empty") || cape.includes(varCape)) {
+                        if(varCape.equals("empty") || cape.includes(varCape)) {
                             setCape(varId, varCape);
                             return true;
+                        } else {
+                            return 3;
                         }
 
 
                     }
                 })
-                return false;
+                return 2;
             }
         });
 
     }
-    return false;
+    return 1;
 }
 
 
