@@ -2,7 +2,9 @@ import * as process from "node:process";
 import moment from 'moment';
 import 'moment/min/locales';
 
-const capeManager = require('./cape_manager');
+import "./cape_manager";
+import {NULL} from "mysql/lib/protocol/constants/types";
+import * as Json from "uuid";
 
 const mysql = require('mysql');
 const express = require('express');
@@ -192,7 +194,7 @@ function setCapeLogic(req,address) {
             // If the account exists
             if (results.length > 0) {
                 if(capeManager.hasCape(varId, varCape)) {
-                    capeManager.setCape(varId, varCape);
+                    setCape(varId, varCape);
                     return true;
                 } else {
                     return false;
@@ -201,5 +203,40 @@ function setCapeLogic(req,address) {
         });
 
     }
+    return false;
+}
+
+
+function setCape(varId, varCapeName) {
+    connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function (error, results, fields) {
+        if (results.length > 0) {
+            let varUniqueId = (results[0]).uuid;
+            if (varUniqueId == null) return false;
+            // TODO: check cape
+            connection.query('DELETE FROM capes WHERE id=?', [varUniqueId]);
+            connection.query('INSERT INTO capes (id, current_cape) VALUES (?, ?)', [varUniqueId, varCapeName], function (error, results, fields) {
+            });
+        }
+        return false;
+    })
+}
+
+
+function hasCape(varId, varCapeName)
+{
+    if(varCapeName.equal("empty")) return true;
+
+    connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function(error, results, fields) {
+        if (results.length > 0) {
+            let cape=(results[0]).owned_items;
+            if(cape==null) throw NULL;
+            let array = Json.parse(cape);
+            for (let i in array.capes) {
+                console.log("cape name: " + i);
+                if (varCapeName.equals(i)) return true;
+            }
+        }
+        return false;
+    })
     return false;
 }
