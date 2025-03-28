@@ -127,19 +127,19 @@ export default function handler(req,res) {
                             if (cape == null) cape = "";
                             if (varCape==="empty" || cape.includes(varCape)) {
                                 setCape(varId, varCape);
-                                return true;
+                                return res.json({
+                                    success:true
+                                });
                             } else {
-                                return 6;
                             }
                         }
-                        return 5;
                     })
-                    return 4;
                 }
-                return 2;
+            });
+            return res.json({
+                success:false
             });
         }
-        return 1;
         //
         //
         // let returnVal = setCapeLogic(varCape, varSession, varSessionExpiry);
