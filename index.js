@@ -102,7 +102,10 @@ export default function handler(req,res) {
         }
     } else if (address.includes('/set_cape')) {
 
-        capeManager.setCapeLogic(req,address);
+        let returnVal = capeManager.setCapeLogic(req,address);
+        return res.json({
+            success: returnVal
+        });
 
     }else if (address.includes('/owned_items')) {
         const search_params = address.searchParams;

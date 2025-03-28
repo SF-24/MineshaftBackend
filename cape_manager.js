@@ -45,6 +45,7 @@ module.exports = {
             }
             return false;
         })
+        return false;
     },
 
     setCapeLogic: function (req,address) {
@@ -56,6 +57,7 @@ module.exports = {
             let expiry = moment(varSessionExpiry, 'YYYY/MM/DD HH:mm:ss');
             if(expiry.isBefore(moment().add(0, 'hours'))) {
                 return res.json({
+                    success:false,
                     expired:true
                 });
             }
@@ -67,12 +69,16 @@ module.exports = {
                 if (error) throw error;
                 // If the account exists
                 if (results.length > 0) {
-                    if(this.hasCape(varId, varCape)) {
-                        this.setCape(varId, varCape);
+                    if(hasCape(varId, varCape)) {
+                        setCape(varId, varCape);
+                        return true;
+                    } else {
+                        return false;
                     }
                 }
             });
 
         }
+        return false;
     }
 };
