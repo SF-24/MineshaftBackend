@@ -41,7 +41,9 @@ module.exports = {
                 let cape = (results[0]).owned_items.capes;
                 if (cape == null) return false;
                 // TODO: check cape. If the cape json contains the selected cape.
-                if (cape.includes(varCapeName)) return true;
+                for (let i in cape.capes) {
+                    if (i===varCapeName) return true;
+                }
             }
             return false;
         })
