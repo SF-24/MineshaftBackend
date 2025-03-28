@@ -104,10 +104,53 @@ export default function handler(req,res) {
         }
     } else if (address.includes('/set_cape')) {
 
-        let returnVal = setCapeLogic(req,address);
-        return res.json({
-            success: returnVal
-        });
+        // let returnVal = setCapeLogic(req,address);
+        // return res.json({
+        //     success: returnVal
+        // });
+        let varCape = req.query.cape;
+        let varSession = req.query.session;
+        let varSessionExpiry = req.query.expiry;
+
+        if (varSession != null && varSessionExpiry != null) {// && typeof varSession === "string" && typeof varSessionExpiry === "string") {
+            let expiry = moment(varSessionExpiry, 'YYYY/MM/DD HH:mm:ss');
+            if(expiry.isBefore(moment().add(0, 'hours'))) {
+                return res.json({
+                    success:false,
+                    expired:true
+                });
+            }
+
+            connection.query('SELECT * FROM sessions WHERE session_id = ? AND expiry_date = ?', [varSession, varSessionExpiry], function (error, results, fields) {
+                // If there is an issue with the query, output the error
+
+                let varId = (results[0]).user_id;
+                if (error) throw error;
+                // If the account exists
+                if (results.length > 0) {
+                    connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function (error, results, fields) {
+                        if (results.length > 0) {
+                            let cape = (results[0]).owned_items.capes;
+                            if (cape == null) cape = "";
+                            if (varCape.equals("empty") || cape.includes(varCape)) {
+                                setCape(varId, varCape);
+                                return true;
+                            } else {
+                                return 6;
+                            }
+                        }
+                        return 5;
+                    })
+                    return 4;
+                } else {
+                    return 3;
+                }
+            });
+            // error
+            return varCape;
+
+        }
+        return 1;
 
     }else if (address.includes('/owned_items')) {
         const search_params = address.searchParams;
@@ -194,17 +237,7 @@ function setCapeLogic(req,address) {
             if (error) throw error;
             // If the account exists
             if (results.length > 0) {
-
-                let newConnection = mysql.createConnection({
-                    host     : host,
-                    user     : user,
-                    password : psw,
-                    database : db,
-                    port: port
-                });
-
-
-                newConnection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function (error, results, fields) {
+                connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function (error, results, fields) {
                     if (results.length > 0) {
                         let cape = (results[0]).owned_items.capes;
                         if (cape == null) cape = "";
@@ -223,7 +256,7 @@ function setCapeLogic(req,address) {
             }
         });
         // error
-        return 2;
+        return varCape;
 
     }
     return 1;
