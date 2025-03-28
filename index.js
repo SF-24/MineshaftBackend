@@ -187,7 +187,7 @@ function setCapeLogic(req,address) {
             });
         }
 
-        connection.query('SELECT * FROM sessions WHERE session_id = ? AND expiry_date = ? ', [varSession, varSessionExpiry], function (error, results, fields) {
+        connection.query('SELECT * FROM sessions WHERE session_id = ? AND expiry_date = ?', [varSession, varSessionExpiry], function (error, results, fields) {
             // If there is an issue with the query, output the error
 
             let varId = (results[0]).user_id;
@@ -195,11 +195,20 @@ function setCapeLogic(req,address) {
             // If the account exists
             if (results.length > 0) {
 
-                connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function(error, results, fields) {
-                    if(results.length>0) {
-                        let cape=(results[0]).owned_items.capes;
-                        if(cape==null) cape="";
-                        if(varCape.equals("empty") || cape.includes(varCape)) {
+                let newConnection = mysql.createConnection({
+                    host     : host,
+                    user     : user,
+                    password : psw,
+                    database : db,
+                    port: port
+                });
+
+
+                newConnection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function (error, results, fields) {
+                    if (results.length > 0) {
+                        let cape = (results[0]).owned_items.capes;
+                        if (cape == null) cape = "";
+                        if (varCape.equals("empty") || cape.includes(varCape)) {
                             setCape(varId, varCape);
                             return true;
                         } else {
@@ -209,9 +218,11 @@ function setCapeLogic(req,address) {
                     return 5;
                 })
                 return 4;
+            } else {
+                return 3;
             }
-            return 3;
         });
+        // error
         return 2;
 
     }
