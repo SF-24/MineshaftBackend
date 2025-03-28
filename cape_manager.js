@@ -2,6 +2,8 @@ import moment from "moment/moment";
 import mysql from "mysql";
 import process from "node:process";
 
+const capeManager = require('./cape_manager');
+
 const psw = process.env.sql_psw;
 const user = process.env.sql_user;
 const host = process.env.sql_host ;
@@ -74,8 +76,8 @@ module.exports = {
                 if (error) throw error;
                 // If the account exists
                 if (results.length > 0) {
-                    if(hasCape(varId, varCape)) {
-                        setCape(varId, varCape);
+                    if(capeManager.hasCape(varId, varCape)) {
+                        capeManager.setCapeLogic(varId, varCape);
                         return true;
                     } else {
                         return false;
