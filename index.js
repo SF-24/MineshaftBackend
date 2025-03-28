@@ -172,7 +172,7 @@ export default function handler(req,res) {
 
 // set cape
 
-export default function setCapeLogic(varCape, varSession ,varSessionExpiry) {
+function setCapeLogic(varCape, varSession ,varSessionExpiry) {
 
     if (varSession != null && varSessionExpiry != null) {// && typeof varSession === "string" && typeof varSessionExpiry === "string") {
         // let expiry = moment(varSessionExpiry, 'YYYY/MM/DD HH:mm:ss');
