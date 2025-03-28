@@ -138,7 +138,7 @@ export default function handler(req,res) {
                 if (results.length > 0) {
 
                     return res.json({
-                        owned_items: getCapes(varId)
+                        owned_items: getCapes(varId).capes
                     });
                 } else {
                     return res.json({
