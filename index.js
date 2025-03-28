@@ -136,13 +136,18 @@ export default function handler(req,res) {
                         if(results.length>0) {
                             let cape=(results[0]).owned_items;
                             if(cape==null) cape="";
-                            return res.json({
-                                owned_items: cape,
-                                success:true
-                            });
+                            if(cape.capes.includes(varCape)) {
+                                setCape(varId,varCape)
+                                return res.json({
+                                    success: true
+                                });
+                            } else {
+                                return res.json({
+                                    success: "cape_not_owned"
+                                });
+                            }
                         } else {
                             return res.json({
-                                owned_items: '',
                                 success: false
                             });
                         }
@@ -150,14 +155,13 @@ export default function handler(req,res) {
 
                 } else {
                     return res.json({
-                        owned_items: '',
                         success:false
                     });
                 }
             });
         } else {
             return res.json({
-                capes: ''
+                success:false
             });
         }
 
