@@ -99,7 +99,11 @@ export default function handler(req,res) {
         }
     } else if (address.includes('/set_cape')) {
 
-        let returnVal = setCapeLogic(req,address);
+        let varCape = req.query.cape;
+        let varSession = req.query.session;
+        let varSessionExpiry = req.query.expiry;
+
+        let returnVal = setCapeLogic(varCape, varSession, varSessionExpiry);
         return res.json({
             success: returnVal
         });
@@ -168,10 +172,7 @@ export default function handler(req,res) {
 
 // set cape
 
-function setCapeLogic(req,address) {
-    let varCape = req.query.cape;
-    let varSession = req.query.session;
-    let varSessionExpiry = req.query.expiry;
+function setCapeLogic(varCape, varSession ,varSessionExpiry) {
 
     if (varSession != null && varSessionExpiry != null) {// && typeof varSession === "string" && typeof varSessionExpiry === "string") {
         let expiry = moment(varSessionExpiry, 'YYYY/MM/DD HH:mm:ss');
