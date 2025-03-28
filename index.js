@@ -242,4 +242,5 @@ function getCapes(varId)
             return cape;
         }
     })
+    return null;
 }
