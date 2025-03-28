@@ -28,14 +28,9 @@ const connection = mysql.createConnection({
 
 const app = express();
 
-app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'static')));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.static(path.join(__dirname, 'static')));
 
 export default function handler(req,res) {
     var address = req.url;
@@ -104,53 +99,10 @@ export default function handler(req,res) {
         }
     } else if (address.includes('/set_cape')) {
 
-        // let returnVal = setCapeLogic(req,address);
-        // return res.json({
-        //     success: returnVal
-        // });
-        let varCape = req.query.cape;
-        let varSession = req.query.session;
-        let varSessionExpiry = req.query.expiry;
-
-        if (varSession != null && varSessionExpiry != null) {// && typeof varSession === "string" && typeof varSessionExpiry === "string") {
-            let expiry = moment(varSessionExpiry, 'YYYY/MM/DD HH:mm:ss');
-            if(expiry.isBefore(moment().add(0, 'hours'))) {
-                return res.json({
-                    success:false,
-                    expired:true
-                });
-            }
-
-            connection.query('SELECT * FROM sessions WHERE session_id = ? AND expiry_date = ?', [varSession, varSessionExpiry], function (error, results, fields) {
-                // If there is an issue with the query, output the error
-
-                let varId = (results[0]).user_id;
-                if (error) throw error;
-                // If the account exists
-                if (results.length > 0) {
-                    connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function (error, results, fields) {
-                        if (results.length > 0) {
-                            let cape = (results[0]).owned_items.capes;
-                            if (cape == null) cape = "";
-                            if (varCape.equals("empty") || cape.includes(varCape)) {
-                                setCape(varId, varCape);
-                                return true;
-                            } else {
-                                return 6;
-                            }
-                        }
-                        return 5;
-                    })
-                    return 4;
-                } else {
-                    return 3;
-                }
-            });
-            // error
-            return varCape;
-
-        }
-        return 1;
+        let returnVal = setCapeLogic(req,address);
+        return res.json({
+            success: returnVal
+        });
 
     }else if (address.includes('/owned_items')) {
         const search_params = address.searchParams;
@@ -241,7 +193,7 @@ function setCapeLogic(req,address) {
                     if (results.length > 0) {
                         let cape = (results[0]).owned_items.capes;
                         if (cape == null) cape = "";
-                        if (varCape.equals("empty") || cape.includes(varCape)) {
+                        if (varCape==="empty" || cape.includes(varCape)) {
                             setCape(varId, varCape);
                             return true;
                         } else {
