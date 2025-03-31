@@ -85,11 +85,10 @@ export default function handler(req,res) {
                     let is_slim=(results[0]).is_slim_skin;
                     if(cape==null || cape==="") cape="empty";
                     if(skin==null || skin==="") cape="steve";
-                    is_slim = is_slim === 1 || is_slim === "1";
                     return res.json({
                         current_cape: cape,
                         current_skin: skin,
-                        is_slim: is_slim
+                        is_slim: (is_slim===1 || is_slim==='1')
                     });
                 } else {
                     return res.json({
