@@ -81,7 +81,9 @@ export default function handler(req,res) {
                 // If the account exists
                 if (results.length > 0) {
                     let cape=(results[0]).current_cape;
+                    let skin=(results[0]).current_skin;
                     if(cape==null || cape==="") cape="empty";
+                    if(skin==null || skin==="") cape="steve";
                     return res.json({
                         current_cape: cape
                     });
