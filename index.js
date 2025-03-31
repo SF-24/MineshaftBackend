@@ -142,6 +142,7 @@ export default function handler(req,res) {
 
                     connection.query('SELECT * FROM minecraft_data WHERE id = ?', [varId], function(error, results, fields) {
                         if(results.length>0) {
+                            let uniqueId=((results[0]).uuid);
                             let cape=((results[0]).owned_items);
                             if(cape==null) cape="";
                             for(let i in cape) {
