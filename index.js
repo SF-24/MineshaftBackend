@@ -295,6 +295,7 @@ function setCape(varId, varCapeName) {
             let varUserSkin = (results[0]).current_skin;
             let varIsSlim = (results[0]).is_slim_skin;
             if (varUniqueId == null) return false;
+            if(varIsSlim==null) varIsSlim=0;
             // TODO: check cape
             try{connection.query('DELETE FROM capes WHERE id=?', [varUniqueId]);}catch (e) {}
             connection.query('INSERT INTO capes (id, current_cape, current_skin, is_slim_skin) VALUES (?, ?, ?, ?)', [varUniqueId, varCapeName, varUserSkin, varIsSlim], function (error, results, fields) {
