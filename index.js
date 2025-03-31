@@ -88,7 +88,7 @@ export default function handler(req,res) {
                     return res.json({
                         current_cape: cape,
                         current_skin: skin,
-                        is_slim: is_slim
+                        is_slim: (is_slim===1)
                     });
                 } else {
                     return res.json({
