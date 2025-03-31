@@ -293,7 +293,7 @@ function setCape(varId, varCapeName) {
             let varUniqueId = (results[0]).uuid;
             if (varUniqueId == null) return false;
             // TODO: check cape
-            connection.query('DELETE FROM capes WHERE id=?', [varUniqueId]);
+            try{connection.query('DELETE FROM capes WHERE id=?', [varUniqueId]);}catch (e) {}
             connection.query('INSERT INTO capes (id, current_cape) VALUES (?, ?)', [varUniqueId, varCapeName], function (error, results, fields) {
             });
         }
